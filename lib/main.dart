@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intouch/ui/welcome.dart';
+import 'package:intouch/ui/welcomePage.dart';
 
 void main() => runApp(InTouchApp());
 

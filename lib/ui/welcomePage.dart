@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intouch/ui/signUpPage.dart';
+import 'package:intouch/ui/loginPage.dart';
+import 'package:intouch/utils/ScaleRoute.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -9,41 +12,75 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xfff3a183),
-                    Color(0xffec6f66),
-                  ]
-              )
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xfff3a183),
+                Color(0xffec6f66),
+              ]
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 80,
-              ),
-              signInButton(),
-              signUpButton(),
-              divider(),
-              signInWith(Colors.red, Colors.redAccent, "G", "Sign in with Google"),
-              signInWith(Colors.indigo, Colors.indigoAccent, "f", "Continue with Facebook"),
-            ],
+        ),
+        child: Align(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 40
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                header(),
+                signInButton(),
+                signUpButton(),
+                divider(),
+                signInWith(Colors.red, Colors.redAccent, "G", "Sign in with Google"),
+                signInWith(Colors.indigo, Colors.indigoAccent, "f", "Continue with Facebook"),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
+  Widget header() {
+    final _media = MediaQuery.of(context).size;
+
+    return Center(
+        child: Column(
+            children: <Widget>[
+              Center(
+                child: Icon(
+                  Icons.group,
+                  size: _media.width / 2,
+                ),
+              ),
+              Text(
+                "WELCOME TO IN-TOUCH!",
+                style: TextStyle(
+                  letterSpacing: 4,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
+                ),
+              ),
+              SizedBox(
+                  height: 40
+              ),
+            ],
+        ),
+    );
+  }
+
   Widget signInButton() {
     return InkWell(
+      onTap: () {
+        Navigator.push(context,
+            ScaleRoute(widget: LoginPage())
+        );
+      },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
         padding: EdgeInsets.symmetric(vertical: 13),
@@ -66,6 +103,11 @@ class WelcomeScreenState extends State<WelcomeScreen> {
 
   Widget signUpButton() {
     return InkWell(
+      onTap: () {
+        Navigator.push(context,
+          ScaleRoute(widget: SignUpPage())
+        );
+      },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 13),
         margin: EdgeInsets.symmetric(vertical: 10),
