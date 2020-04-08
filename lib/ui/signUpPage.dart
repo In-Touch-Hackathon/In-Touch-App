@@ -15,7 +15,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Align(
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: 40
+                  horizontal: 40,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget entryField(String title, {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(
-          vertical: 10
+          vertical: 10,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
             title,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15
+                fontSize: 15,
             ),
           ),
           SizedBox(
@@ -61,9 +61,9 @@ class _SignUpPageState extends State<SignUpPage> {
               decoration: InputDecoration(
                   border: InputBorder.none,
                   fillColor: Colors.black12,
-                  filled: true
-              )
-          )
+                  filled: true,
+              ),
+          ),
         ],
       ),
     );
@@ -72,10 +72,12 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget register() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 15),
+      padding: EdgeInsets.symmetric(
+          vertical: 15,
+      ),
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(
-          vertical: 30
+          vertical: 30,
       ),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -84,7 +86,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 color: Colors.grey.shade200,
                 offset: Offset(2, 4),
                 blurRadius: 5,
-                spreadRadius: 2)
+                spreadRadius: 2,
+            )
           ],
           gradient: LinearGradient(
               begin: Alignment.centerLeft,
@@ -97,7 +100,10 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       child: Text(
         'Register Now',
-        style: TextStyle(fontSize: 20, color: Colors.white),
+        style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+        ),
       ),
     );
   }
