@@ -21,12 +21,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  SizedBox(height: 10),
                   header(),
                   entryField("Username"),
                   entryField("Email"),
                   entryField("Password", isPassword: true),
                   entryField("Phone Number"),
                   register(),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
@@ -73,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
       padding: EdgeInsets.symmetric(vertical: 15),
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(
-          vertical: 20
+          vertical: 30
       ),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
