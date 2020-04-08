@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intouch/ui/signUpPage.dart';
 import 'package:intouch/ui/loginPage.dart';
-import 'package:intouch/utils/ScaleRoute.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -77,8 +76,18 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   Widget signInButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            ScaleRoute(widget: LoginPage())
+        Navigator.of(context).push(
+            new PageRouteBuilder(
+                pageBuilder: (BuildContext context, _, __) {
+                  return new LoginPage();
+                },
+                transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
+                  return new FadeTransition(
+                      opacity: animation,
+                      child: child
+                  );
+                }
+            )
         );
       },
       child: Container(
@@ -104,8 +113,18 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   Widget signUpButton() {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-          ScaleRoute(widget: SignUpPage())
+        Navigator.of(context).push(
+            new PageRouteBuilder(
+                pageBuilder: (BuildContext context, _, __) {
+                  return new SignUpPage();
+                },
+                transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
+                  return new FadeTransition(
+                      opacity: animation,
+                      child: child
+                  );
+                }
+            )
         );
       },
       child: Container(
