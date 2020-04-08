@@ -66,7 +66,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                 ),
               ),
               SizedBox(
-                  height: 40
+                  height: 40,
               ),
             ],
         ),
@@ -84,7 +84,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                 transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
                   return new FadeTransition(
                       opacity: animation,
-                      child: child
+                      child: child,
                   );
                 }
             )
@@ -95,7 +95,9 @@ class WelcomeScreenState extends State<WelcomeScreen> {
         padding: EdgeInsets.symmetric(vertical: 13),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(
+              Radius.circular(5),
+          ),
           color: Colors.white,
         ),
         child: Text(
@@ -121,7 +123,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                 transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
                   return new FadeTransition(
                       opacity: animation,
-                      child: child
+                      child: child,
                   );
                 }
             )
@@ -132,14 +134,19 @@ class WelcomeScreenState extends State<WelcomeScreen> {
         margin: EdgeInsets.symmetric(vertical: 10),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          border: Border.all(color: Colors.white, width: 2),
+          borderRadius: BorderRadius.all(
+              Radius.circular(5),
+          ),
+          border: Border.all(
+              color: Colors.white,
+              width: 2,
+          ),
         ),
         child: Text(
           'Register',
           style: TextStyle(
               fontSize: 20, color: Colors.white,
-              fontWeight: FontWeight.w500
+              fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -156,7 +163,9 @@ class WelcomeScreenState extends State<WelcomeScreen> {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(
+                  horizontal: 10,
+              ),
               child: Divider(
                 thickness: 1,
               ),
@@ -198,7 +207,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   color: logo,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(5),
-                      topLeft: Radius.circular(5)),
+                      topLeft: Radius.circular(5)
+                  ),
                 ),
                 alignment: Alignment.center,
                 child: Text(logoChar,
@@ -224,7 +234,9 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        fontWeight: FontWeight.w500)),
+                        fontWeight: FontWeight.w500
+                    )
+                ),
               ),
             ),
           ],

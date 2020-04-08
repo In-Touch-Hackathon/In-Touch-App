@@ -75,10 +75,10 @@ class _SignUpPageState extends State<SignUpPage> {
       padding: EdgeInsets.symmetric(
           vertical: 15,
       ),
-      alignment: Alignment.center,
       margin: EdgeInsets.symmetric(
-          vertical: 30,
+        vertical: 30,
       ),
+      alignment: Alignment.center,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           boxShadow: <BoxShadow>[
