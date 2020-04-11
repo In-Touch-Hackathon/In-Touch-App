@@ -14,13 +14,25 @@ class _SignUpPageState extends State<SignUpPage> {
         child: new ListView(
           physics: BouncingScrollPhysics(),
           shrinkWrap: true,
-          padding: const EdgeInsets.only(left: 40.0, right: 40),
+          padding: const EdgeInsets.only(
+            left: 40.0,
+            right: 40,
+          ),
           children: [
             header(),
-            entryField("Username"),
-            entryField("Email"),
-            entryField("Password", isPassword: true),
-            entryField("Phone Number"),
+            entryField(
+              "Username",
+            ),
+            entryField(
+              "Email",
+            ),
+            entryField(
+              "Password",
+              isPassword: true,
+            ),
+            entryField(
+              "Phone Number",
+            ),
             register(),
           ],
         ),
@@ -58,7 +70,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget register() {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(
+        context,
+      ).size.width,
       padding: EdgeInsets.symmetric(
         vertical: 15,
       ),
@@ -67,21 +81,33 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Theme.of(context).focusColor,
-              blurRadius: 15,
-              spreadRadius: 1,
-            )
+        borderRadius: BorderRadius.all(
+          Radius.circular(
+            5,
+          ),
+        ),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Theme.of(
+              context,
+            ).focusColor,
+            blurRadius: 15,
+            spreadRadius: 1,
+          )
+        ],
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            Color(
+              0xfff3a183,
+            ),
+            Color(
+              0xffec6f66,
+            ),
           ],
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Color(0xfff3a183),
-                Color(0xffec6f66),
-              ])),
+        ),
+      ),
       child: Text(
         'Register Now',
         style: TextStyle(
@@ -93,7 +119,9 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget header() {
-    final _media = MediaQuery.of(context).size;
+    final _media = MediaQuery.of(
+      context,
+    ).size;
 
     return Center(
       child: Column(
@@ -101,7 +129,10 @@ class _SignUpPageState extends State<SignUpPage> {
           Center(
             child: Icon(
               Icons.group,
-              size: min(_media.width / 2, _media.height / 2),
+              size: min(
+                _media.width / 2,
+                _media.height / 2,
+              ),
             ),
           ),
           Text(
@@ -112,7 +143,9 @@ class _SignUpPageState extends State<SignUpPage> {
               fontSize: 23,
             ),
           ),
-          SizedBox(height: 40),
+          SizedBox(
+            height: 40,
+          ),
         ],
       ),
     );
