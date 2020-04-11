@@ -38,20 +38,20 @@ class _SignUpPageState extends State<SignUpPage> {
           Text(
             title,
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
             ),
           ),
           SizedBox(
             height: 10,
           ),
           TextField(
-              obscureText: isPassword,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Colors.black12,
-                  filled: true,
-              ),
+            obscureText: isPassword,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              fillColor: Colors.black12,
+              filled: true,
+            ),
           ),
         ],
       ),
@@ -62,7 +62,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(
-          vertical: 15,
+        vertical: 15,
       ),
       margin: EdgeInsets.symmetric(
         vertical: 30,
@@ -72,10 +72,10 @@ class _SignUpPageState extends State<SignUpPage> {
           borderRadius: BorderRadius.all(Radius.circular(5)),
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: Colors.grey.shade200,
-                offset: Offset(2, 4),
-                blurRadius: 5,
-                spreadRadius: 2,
+              color: Colors.grey.shade200,
+              offset: Offset(2, 4),
+              blurRadius: 5,
+              spreadRadius: 2,
             )
           ],
           gradient: LinearGradient(
@@ -84,14 +84,12 @@ class _SignUpPageState extends State<SignUpPage> {
               colors: [
                 Color(0xfff3a183),
                 Color(0xffec6f66),
-              ]
-          )
-      ),
+              ])),
       child: Text(
         'Register Now',
         style: TextStyle(
-            fontSize: 20,
-            color: Colors.white,
+          fontSize: 20,
+          color: Colors.white,
         ),
       ),
     );
@@ -117,9 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
               fontSize: 23,
             ),
           ),
-          SizedBox(
-              height: 40
-          ),
+          SizedBox(height: 40),
         ],
       ),
     );

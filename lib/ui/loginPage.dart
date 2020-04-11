@@ -37,10 +37,11 @@ class _LoginPageState extends State<LoginPage> {
       _formKey.currentState.save();
 
       _auth
-          .signInWithEmailAndPassword(email: _model.email, password: _model.password)
+          .signInWithEmailAndPassword(
+              email: _model.email, password: _model.password)
           .then((result) => result.user)
           .then((user) => print('${user.displayName} logged in!'))
-          .catchError((onError) => print('An error occurred: ${onError}'));
+          .catchError((onError) => print('An error occurred: $onError'));
     }
   }
 
@@ -57,8 +58,13 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               SizedBox(height: 10),
               header(),
-              entryField("Email", onSaved: (value) => _model.email = value, validator: _emailValidator),
-              entryField("Password", onSaved: (value) => _model.password = value, validator: _passwordValidator, isPassword: true),
+              entryField("Email",
+                  onSaved: (value) => _model.email = value,
+                  validator: _emailValidator),
+              entryField("Password",
+                  onSaved: (value) => _model.password = value,
+                  validator: _passwordValidator,
+                  isPassword: true),
               login(),
               SizedBox(height: 10),
             ],
@@ -68,7 +74,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget entryField(String title, {void Function(String) onSaved, String Function(String) validator, bool isPassword = false}) {
+  Widget entryField(String title,
+      {void Function(String) onSaved,
+      String Function(String) validator,
+      bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(
         vertical: 10,
@@ -89,7 +98,6 @@ class _LoginPageState extends State<LoginPage> {
           TextFormField(
               onSaved: (value) {
                 onSaved(value);
-                print('called onSaved');
               },
               validator: validator ?? (value) => null,
               obscureText: isPassword,
@@ -97,8 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                 border: InputBorder.none,
                 fillColor: Colors.black12,
                 filled: true,
-              )
-          )
+              ))
         ],
       ),
     );
@@ -131,9 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                 colors: [
                   Color(0xfff3a183),
                   Color(0xffec6f66),
-                ]
-            )
-        ),
+                ])),
         child: InkWell(
           onTap: _submitForm,
           child: Text(
@@ -143,8 +148,7 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.white,
             ),
           ),
-        )
-    );
+        ));
   }
 
   Widget header() {

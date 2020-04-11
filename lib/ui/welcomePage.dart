@@ -20,8 +20,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
               colors: [
                 Color(0xfff3a183),
                 Color(0xffec6f66),
-              ]
-          ),
+              ]),
         ),
         child: Center(
           child: new ListView(
@@ -34,16 +33,9 @@ class WelcomeScreenState extends State<WelcomeScreen> {
               signUpButton(),
               divider(),
               signInWith(
-                  Colors.red,
-                  Colors.redAccent,
-                  "G",
-                  "Sign in with Google"),
-              signInWith(
-                  Colors.indigo,
-                  Colors.indigoAccent,
-                  "f",
-                  "Continue with Facebook"
-              ),
+                  Colors.red, Colors.redAccent, "G", "Sign in with Google"),
+              signInWith(Colors.indigo, Colors.indigoAccent, "f",
+                  "Continue with Facebook"),
             ],
           ),
         ),
@@ -84,19 +76,16 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   Widget signInButton() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-            new PageRouteBuilder(
-                pageBuilder: (BuildContext context, _, __) {
-                  return new LoginPage();
-                },
-                transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
-                  return new FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                }
-            )
-        );
+        Navigator.of(context).push(new PageRouteBuilder(
+            pageBuilder: (BuildContext context, _, __) {
+          return new LoginPage();
+        }, transitionsBuilder:
+                (_, Animation<double> animation, __, Widget child) {
+          return new FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        }));
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
@@ -113,8 +102,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
           style: TextStyle(
               fontSize: 20,
               color: Color(0xffef8573),
-              fontWeight: FontWeight.bold
-          ),
+              fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -123,19 +111,16 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   Widget signUpButton() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-            new PageRouteBuilder(
-                pageBuilder: (BuildContext context, _, __) {
-                  return new SignUpPage();
-                },
-                transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
-                  return new FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                }
-            )
-        );
+        Navigator.of(context).push(new PageRouteBuilder(
+            pageBuilder: (BuildContext context, _, __) {
+          return new SignUpPage();
+        }, transitionsBuilder:
+                (_, Animation<double> animation, __, Widget child) {
+          return new FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        }));
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 13),
@@ -153,7 +138,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
         child: Text(
           'Register',
           style: TextStyle(
-            fontSize: 20, color: Colors.white,
+            fontSize: 20,
+            color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -182,8 +168,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
           Text('or',
               style: TextStyle(
                 color: Colors.white70,
-              )
-          ),
+              )),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -215,17 +200,14 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   color: logo,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(5),
-                      topLeft: Radius.circular(5)
-                  ),
+                      topLeft: Radius.circular(5)),
                 ),
                 alignment: Alignment.center,
                 child: Text(logoChar,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 30,
-                        fontWeight: FontWeight.w600
-                    )
-                ),
+                        fontWeight: FontWeight.w600)),
               ),
             ),
             Expanded(
@@ -242,9 +224,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        fontWeight: FontWeight.w500
-                    )
-                ),
+                        fontWeight: FontWeight.w500)),
               ),
             ),
           ],
