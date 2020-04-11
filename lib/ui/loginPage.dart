@@ -56,7 +56,6 @@ class _LoginPageState extends State<LoginPage> {
             shrinkWrap: true,
             padding: const EdgeInsets.all(40.0),
             children: <Widget>[
-              SizedBox(height: 10),
               header(),
               entryField("Email",
                   onSaved: (value) => _model.email = value,
@@ -66,7 +65,6 @@ class _LoginPageState extends State<LoginPage> {
                   validator: _passwordValidator,
                   isPassword: true),
               login(),
-              SizedBox(height: 10),
             ],
           ),
         ),
