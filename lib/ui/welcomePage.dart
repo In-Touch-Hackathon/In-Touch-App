@@ -76,16 +76,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget signInButton() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(new PageRouteBuilder(
-            pageBuilder: (BuildContext context, _, __) {
-          return new LoginPage();
-        }, transitionsBuilder:
-                (_, Animation<double> animation, __, Widget child) {
-          return new FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        }));
+        Navigator.of(context).push(
+            new PageRouteBuilder(
+                pageBuilder: (BuildContext context, _, __) {
+                  return new LoginPage();
+                },
+                transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
+                  return new FadeTransition(
+                      opacity: animation,
+                      child: child
+                  );
+                }
+            )
+        );
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
@@ -111,16 +114,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget signUpButton() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(new PageRouteBuilder(
-            pageBuilder: (BuildContext context, _, __) {
-          return new SignUpPage();
-        }, transitionsBuilder:
-                (_, Animation<double> animation, __, Widget child) {
-          return new FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        }));
+        Navigator.of(context).push(
+            new PageRouteBuilder(
+                pageBuilder: (BuildContext context, _, __) {
+                  return new SignUpPage();
+                },
+                transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
+                  return new FadeTransition(
+                      opacity: animation,
+                      child: child
+                  );
+                }
+            )
+        );
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 13),
