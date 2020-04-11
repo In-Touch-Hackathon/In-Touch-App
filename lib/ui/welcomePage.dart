@@ -5,37 +5,53 @@ import 'dart:math';
 
 class WelcomeScreen extends StatefulWidget {
   @override
-  WelcomeScreenState createState() => WelcomeScreenState();
+  _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xfff3a183),
-                Color(0xffec6f66),
-              ]),
+            begin: Alignment.topLeft,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(
+                0xfff3a183,
+              ),
+              Color(
+                0xffec6f66,
+              ),
+            ],
+          ),
         ),
         child: Center(
           child: new ListView(
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.all(40.0),
+            padding: const EdgeInsets.only(
+              left: 40.0,
+              right: 40,
+            ),
             children: [
               header(),
               signInButton(),
               signUpButton(),
               divider(),
               signInWith(
-                  Colors.red, Colors.redAccent, "G", "Sign in with Google"),
-              signInWith(Colors.indigo, Colors.indigoAccent, "f",
-                  "Continue with Facebook"),
+                Colors.red,
+                Colors.redAccent,
+                "G",
+                "Sign in with Google",
+              ),
+              signInWith(
+                Colors.indigo,
+                Colors.indigoAccent,
+                "f",
+                "Continue with Facebook",
+              ),
             ],
           ),
         ),
@@ -44,7 +60,9 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   Widget header() {
-    final _media = MediaQuery.of(context).size;
+    final _media = MediaQuery.of(
+      context,
+    ).size;
 
     return Center(
       child: Column(
@@ -52,7 +70,10 @@ class WelcomeScreenState extends State<WelcomeScreen> {
           Center(
             child: Icon(
               Icons.group,
-              size: min(_media.width / 2, _media.height / 2),
+              size: min(
+                _media.width / 2,
+                _media.height / 2,
+              ),
               color: Colors.black87,
             ),
           ),
@@ -76,33 +97,56 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   Widget signInButton() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(new PageRouteBuilder(
-            pageBuilder: (BuildContext context, _, __) {
-          return new LoginPage();
-        }, transitionsBuilder:
-                (_, Animation<double> animation, __, Widget child) {
-          return new FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        }));
+        Navigator.of(
+          context,
+        ).push(
+          new PageRouteBuilder(
+            pageBuilder: (
+              BuildContext context,
+              _,
+              __,
+            ) {
+              return new LoginPage();
+            },
+            transitionsBuilder: (
+              _,
+              Animation<double> animation,
+              __,
+              Widget child,
+            ) {
+              return new FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          ),
+        );
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        padding: EdgeInsets.symmetric(vertical: 13),
+        margin: EdgeInsets.symmetric(
+          vertical: 10,
+        ),
+        padding: EdgeInsets.symmetric(
+          vertical: 13,
+        ),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
-            Radius.circular(5),
+            Radius.circular(
+              5,
+            ),
           ),
           color: Colors.white,
         ),
         child: Text(
           'Login',
           style: TextStyle(
-              fontSize: 20,
-              color: Color(0xffef8573),
-              fontWeight: FontWeight.bold),
+            fontSize: 20,
+            color: Color(
+              0xffef8573,
+            ),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
@@ -111,24 +155,44 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   Widget signUpButton() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(new PageRouteBuilder(
-            pageBuilder: (BuildContext context, _, __) {
-          return new SignUpPage();
-        }, transitionsBuilder:
-                (_, Animation<double> animation, __, Widget child) {
-          return new FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        }));
+        Navigator.of(
+          context,
+        ).push(
+          new PageRouteBuilder(
+            pageBuilder: (
+              BuildContext context,
+              _,
+              __,
+            ) {
+              return new SignUpPage();
+            },
+            transitionsBuilder: (
+              _,
+              Animation<double> animation,
+              __,
+              Widget child,
+            ) {
+              return new FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          ),
+        );
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 13),
-        margin: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.symmetric(
+          vertical: 13,
+        ),
+        margin: EdgeInsets.symmetric(
+          vertical: 10,
+        ),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
-            Radius.circular(5),
+            Radius.circular(
+              5,
+            ),
           ),
           border: Border.all(
             color: Colors.white,
@@ -149,7 +213,9 @@ class WelcomeScreenState extends State<WelcomeScreen> {
 
   Widget divider() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.symmetric(
+        vertical: 10,
+      ),
       child: Row(
         children: <Widget>[
           SizedBox(
@@ -165,13 +231,17 @@ class WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
           ),
-          Text('or',
-              style: TextStyle(
-                color: Colors.white70,
-              )),
+          Text(
+            'or',
+            style: TextStyle(
+              color: Colors.white70,
+            ),
+          ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
               child: Divider(
                 thickness: 1,
               ),
@@ -189,7 +259,9 @@ class WelcomeScreenState extends State<WelcomeScreen> {
     return InkWell(
       child: Container(
         height: 54,
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.symmetric(
+          vertical: 10,
+        ),
         alignment: Alignment.center,
         child: Row(
           children: <Widget>[
@@ -199,15 +271,23 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                 decoration: BoxDecoration(
                   color: logo,
                   borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(5),
-                      topLeft: Radius.circular(5)),
+                    bottomLeft: Radius.circular(
+                      5,
+                    ),
+                    topLeft: Radius.circular(
+                      5,
+                    ),
+                  ),
                 ),
                 alignment: Alignment.center,
-                child: Text(logoChar,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600)),
+                child: Text(
+                  logoChar,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
             Expanded(
@@ -216,15 +296,23 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                 decoration: BoxDecoration(
                   color: accent,
                   borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(5),
-                      topRight: Radius.circular(5)),
+                    bottomRight: Radius.circular(
+                      5,
+                    ),
+                    topRight: Radius.circular(
+                      5,
+                    ),
+                  ),
                 ),
                 alignment: Alignment.center,
-                child: Text(text,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500)),
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
             ),
           ],
