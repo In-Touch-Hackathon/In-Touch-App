@@ -5,10 +5,10 @@ import 'dart:math';
 
 class WelcomeScreen extends StatefulWidget {
   @override
-  WelcomeScreenState createState() => WelcomeScreenState();
+  _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

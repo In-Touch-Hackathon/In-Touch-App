@@ -14,7 +14,7 @@ class _SignUpPageState extends State<SignUpPage> {
         child: new ListView(
           physics: BouncingScrollPhysics(),
           shrinkWrap: true,
-          padding: const EdgeInsets.all(40.0),
+          padding: const EdgeInsets.only(left: 40.0, right: 40),
           children: [
             header(),
             entryField("Username"),

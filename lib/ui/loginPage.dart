@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
           child: new ListView(
             physics: BouncingScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.all(40.0),
+            padding: const EdgeInsets.only(left: 40.0, right: 40),
             children: <Widget>[
               header(),
               entryField("Email",
