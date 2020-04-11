@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intouch/ui/signUpPage.dart';
 import 'package:intouch/ui/loginPage.dart';
+import 'dart:math';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -22,23 +23,28 @@ class WelcomeScreenState extends State<WelcomeScreen> {
               ]
           ),
         ),
-        child: Align(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 40
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                header(),
-                signInButton(),
-                signUpButton(),
-                divider(),
-                signInWith(Colors.red, Colors.redAccent, "G", "Sign in with Google"),
-                signInWith(Colors.indigo, Colors.indigoAccent, "f", "Continue with Facebook"),
-              ],
-            ),
+        child: Center(
+          child: new ListView(
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(40.0),
+            children: [
+              header(),
+              signInButton(),
+              signUpButton(),
+              divider(),
+              signInWith(
+                  Colors.red,
+                  Colors.redAccent,
+                  "G",
+                  "Sign in with Google"),
+              signInWith(
+                  Colors.indigo,
+                  Colors.indigoAccent,
+                  "f",
+                  "Continue with Facebook"
+              ),
+            ],
           ),
         ),
       ),
@@ -49,27 +55,29 @@ class WelcomeScreenState extends State<WelcomeScreen> {
     final _media = MediaQuery.of(context).size;
 
     return Center(
-        child: Column(
-            children: <Widget>[
-              Center(
-                child: Icon(
-                  Icons.group,
-                  size: _media.width / 2,
-                ),
-              ),
-              Text(
-                "WELCOME TO IN-TOUCH!",
-                style: TextStyle(
-                  letterSpacing: 4,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 23,
-                ),
-              ),
-              SizedBox(
-                  height: 40,
-              ),
-            ],
-        ),
+      child: Column(
+        children: <Widget>[
+          Center(
+            child: Icon(
+              Icons.group,
+              size: min(_media.width / 2, _media.height / 2),
+              color: Colors.black87,
+            ),
+          ),
+          Text(
+            "WELCOME TO IN-TOUCH!",
+            style: TextStyle(
+              letterSpacing: 4,
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+              color: Colors.black87,
+            ),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+        ],
+      ),
     );
   }
 
@@ -83,8 +91,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                 },
                 transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
                   return new FadeTransition(
-                      opacity: animation,
-                      child: child,
+                    opacity: animation,
+                    child: child,
                   );
                 }
             )
@@ -96,7 +104,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
-              Radius.circular(5),
+            Radius.circular(5),
           ),
           color: Colors.white,
         ),
@@ -122,8 +130,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                 },
                 transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
                   return new FadeTransition(
-                      opacity: animation,
-                      child: child,
+                    opacity: animation,
+                    child: child,
                   );
                 }
             )
@@ -135,18 +143,18 @@ class WelcomeScreenState extends State<WelcomeScreen> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
-              Radius.circular(5),
+            Radius.circular(5),
           ),
           border: Border.all(
-              color: Colors.white,
-              width: 2,
+            color: Colors.white,
+            width: 2,
           ),
         ),
         child: Text(
           'Register',
           style: TextStyle(
-              fontSize: 20, color: Colors.white,
-              fontWeight: FontWeight.w500,
+            fontSize: 20, color: Colors.white,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -164,7 +172,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: 10,
+                horizontal: 10,
               ),
               child: Divider(
                 thickness: 1,
@@ -173,7 +181,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
           ),
           Text('or',
               style: TextStyle(
-                  color: Colors.white70,
+                color: Colors.white70,
               )
           ),
           Expanded(

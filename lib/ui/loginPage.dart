@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:math';
 
 class LoginModel {
   String email;
@@ -46,27 +47,21 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Align(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 40,
-            ),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: 10),
-                  header(),
-                  entryField("Email", onSaved: (value) => _model.email = value, validator: _emailValidator),
-                  entryField("Password", onSaved: (value) => _model.password = value, validator: _passwordValidator, isPassword: true),
-                  login(),
-                  SizedBox(height: 10),
-                ],
-              ),
-            ),
+      body: Center(
+        child: Form(
+          key: _formKey,
+          child: new ListView(
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(40.0),
+            children: <Widget>[
+              SizedBox(height: 10),
+              header(),
+              entryField("Email", onSaved: (value) => _model.email = value, validator: _emailValidator),
+              entryField("Password", onSaved: (value) => _model.password = value, validator: _passwordValidator, isPassword: true),
+              login(),
+              SizedBox(height: 10),
+            ],
           ),
         ),
       ),
@@ -76,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget entryField(String title, {void Function(String) onSaved, String Function(String) validator, bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(
-          vertical: 10,
+        vertical: 10,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,25 +79,25 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             title,
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
             ),
           ),
           SizedBox(
             height: 10,
           ),
           TextFormField(
-            onSaved: (value) {
-              onSaved(value);
-              print('called onSaved');
-            },
-            validator: validator ?? (value) => null,
-            obscureText: isPassword,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              fillColor: Colors.black12,
-              filled: true,
-            )
+              onSaved: (value) {
+                onSaved(value);
+                print('called onSaved');
+              },
+              validator: validator ?? (value) => null,
+              obscureText: isPassword,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                fillColor: Colors.black12,
+                filled: true,
+              )
           )
         ],
       ),
@@ -110,12 +105,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget login() {
-    return InkWell(
-      onTap: _submitForm,
-      child: Container(
+    return Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(
-            vertical: 15,
+          vertical: 15,
         ),
         margin: EdgeInsets.symmetric(
           vertical: 30,
@@ -123,14 +116,13 @@ class _LoginPageState extends State<LoginPage> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(
-                Radius.circular(5),
+              Radius.circular(5),
             ),
             boxShadow: <BoxShadow>[
               BoxShadow(
-                  color: Colors.grey.shade200,
-                  offset: Offset(2, 4),
-                  blurRadius: 5,
-                  spreadRadius: 2,
+                color: Theme.of(context).focusColor,
+                blurRadius: 15,
+                spreadRadius: 1,
               )
             ],
             gradient: LinearGradient(
@@ -142,14 +134,16 @@ class _LoginPageState extends State<LoginPage> {
                 ]
             )
         ),
-        child: Text(
-          'Login',
-          style: TextStyle(
+        child: InkWell(
+          onTap: _submitForm,
+          child: Text(
+            'Login',
+            style: TextStyle(
               fontSize: 20,
               color: Colors.white,
+            ),
           ),
-        ),
-      )
+        )
     );
   }
 
@@ -162,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
           Center(
             child: Icon(
               Icons.group,
-              size: _media.width / 2,
+              size: min(_media.width / 2, _media.height / 2),
             ),
           ),
           Text(
@@ -174,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           SizedBox(
-              height: 40,
+            height: 40,
           ),
         ],
       ),

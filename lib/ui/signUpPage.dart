@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -9,40 +10,28 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
-          Align(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 40,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: 10),
-                  header(),
-                  entryField("Username"),
-                  entryField("Email"),
-                  entryField("Password", isPassword: true),
-                  entryField("Phone Number"),
-                  register(),
-                  SizedBox(height: 10),
-                ],
-              ),
-            ),
-          ),
-        ],
+      body: Center(
+        child: new ListView(
+          physics: BouncingScrollPhysics(),
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(40.0),
+          children: [
+            SizedBox(height: 10),
+            header(),
+            entryField("Username"),
+            entryField("Email"),
+            entryField("Password", isPassword: true),
+            entryField("Phone Number"),
+            register(),
+            SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }
 
   Widget entryField(String title, {bool isPassword = false}) {
     return Container(
-      margin: EdgeInsets.symmetric(
-          vertical: 10,
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -117,7 +106,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Center(
             child: Icon(
               Icons.group,
-              size: _media.width / 2,
+              size: min(_media.width / 2, _media.height / 2),
             ),
           ),
           Text(
