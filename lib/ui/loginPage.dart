@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
+
 class LoginModel {
   String email;
   String password;
@@ -13,6 +15,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   final _model = new LoginModel();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,22 +35,50 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   };
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      _auth
-          .signInWithEmailAndPassword(
-              email: _model.email, password: _model.password)
-          .then((result) => result.user)
-          .then((user) => print('${user.displayName} logged in!'))
-          .catchError((onError) => print('An error occurred: $onError'));
+      var message;
+      try {
+        var result = await _auth.signInWithEmailAndPassword(email: _model.email, password: _model.password);
+        var user = result.user;
+        message = 'Logged in';
+      } on PlatformException catch (e) {
+        switch (e.code) {
+          case 'ERROR_USER_NOT_FOUND':
+          case 'ERROR_WRONG_PASSWORD':
+            message = 'Invalid email or password';
+            break;
+
+          case 'ERROR_INVALID_EMAIL':
+            message = 'Invalid email';
+            break;
+
+          case 'ERROR_TOO_MANY_REQUESTS':
+            message = 'There have been too many failed sign in attempts, please try again later';
+            break;
+
+          case 'ERROR_USER_DISABLED':
+            message = 'Your account is locked';
+            break;
+
+          default:
+            message = 'An unexpected error has occurred';
+            break;
+        }
+      }
+
+      _scaffoldKey.currentState.showSnackBar(
+          new SnackBar(content: new Text(message))
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Center(
         child: Form(
           key: _formKey,
@@ -58,11 +89,10 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               header(),
               entryField("Email",
-                  onSaved: (value) => _model.email = value,
+                  onSaved: (value) => _model.email = value.trim(),
                   validator: _emailValidator),
               entryField("Password",
                   onSaved: (value) => _model.password = value,
-                  validator: _passwordValidator,
                   isPassword: true),
               login(),
             ],
