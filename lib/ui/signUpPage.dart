@@ -1,5 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:phone_number/phone_number.dart';
 import 'dart:math';
+
+import 'shared/components.dart';
+import 'shared/validators.dart';
+
+class SignUpModel {
+  String username;
+  String email;
+  String password;
+  String phoneNumber;
+}
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -7,66 +21,98 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final _formKey = new GlobalKey<FormState>();
+  
+  final _auth = FirebaseAuth.instance;
+  final _firestore = Firestore.instance;
+  final _phoneNumber = PhoneNumber();
+  
+  final _model = new SignUpModel();
+
+  void _submitForm() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+
+      var message;
+
+      try {
+        var parsedPhoneNumber = await _phoneNumber.parse(_model.phoneNumber, region: 'NZ');
+
+        var authResult = await _auth.createUserWithEmailAndPassword(email: _model.email, password: _model.password);
+        var user = authResult.user;
+
+        await _firestore.document('users/${user.uid}').setData({
+          'phoneNumber': parsedPhoneNumber['e164'],
+          'displayName': _model.username,
+          'verified': false
+        });
+
+        message = 'Signed up';
+      } on PlatformException catch (e) {
+        switch (e.code) {
+          case 'InvalidNumber':
+            message = 'Invalid phone number';
+            break;
+
+          case 'ERROR_WEAK_PASSWORD':
+            message = 'Password is too weak';
+            break;
+
+          case 'ERROR_INVALID_EMAIL':
+            message = 'Invalid email';
+            break;
+
+          case 'ERROR_EMAIL_ALREADY_IN_USE':
+            message = 'Email is already in use';
+            break;
+        }
+      }
+
+      _scaffoldKey.currentState.showSnackBar(
+          new SnackBar(content: new Text(message))
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Center(
-        child: new ListView(
-          physics: BouncingScrollPhysics(),
-          shrinkWrap: true,
-          padding: const EdgeInsets.only(
-            left: 40.0,
-            right: 40,
+        child: Form(
+          key: _formKey,
+          child: new ListView(
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
+            padding: const EdgeInsets.only(
+              left: 40.0,
+              right: 40,
+            ),
+            children: [
+              header(),
+              entryField(
+                "Email", onSaved: (value) => _model.email = value.trim(),
+                validator: emailValidator,
+              ),
+              entryField(
+                "Password",
+                isPassword: true, onSaved: (value) => _model.password = value,
+              ),
+              entryField(
+                "Display Name", onSaved: (value) => _model.username = value.trim(),
+                validator: displayNameValidator,
+              ),
+              entryField(
+                "Phone Number", onSaved: (value) => _model.phoneNumber = value,
+              ),
+              register(),
+            ],
           ),
-          children: [
-            header(),
-            entryField(
-              "Username",
-            ),
-            entryField(
-              "Email",
-            ),
-            entryField(
-              "Password",
-              isPassword: true,
-            ),
-            entryField(
-              "Phone Number",
-            ),
-            register(),
-          ],
         ),
       ),
     );
   }
 
-  Widget entryField(String title, {bool isPassword = false}) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          TextField(
-            obscureText: isPassword,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              fillColor: Colors.black12,
-              filled: true,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget register() {
     return Container(
@@ -108,11 +154,14 @@ class _SignUpPageState extends State<SignUpPage> {
           ],
         ),
       ),
-      child: Text(
-        'Register Now',
-        style: TextStyle(
-          fontSize: 20,
-          color: Colors.white,
+      child: InkWell(
+        onTap: _submitForm,
+        child: Text(
+          'Register Now',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
         ),
       ),
     );
