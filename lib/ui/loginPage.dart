@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math';
 
-import 'package:flutter/services.dart';
+import 'shared/components.dart';
 
 class LoginModel {
   String email;
@@ -20,20 +21,6 @@ class _LoginPageState extends State<LoginPage> {
   final _model = new LoginModel();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String Function(String) _emailValidator = (String value) {
-    RegExp regex = new RegExp(r"^.+@.+\..+$");
-    if (!regex.hasMatch(value)) {
-      return 'Invalid email address';
-    }
-    return null;
-  };
-
-  String Function(String) _passwordValidator = (String value) {
-    if (value.length < 6) {
-      return 'The password needs to be at least 6 characters long';
-    }
-    return null;
-  };
 
   void _submitForm() async {
     if (_formKey.currentState.validate()) {
@@ -92,8 +79,7 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               header(),
               entryField("Email",
-                  onSaved: (value) => _model.email = value.trim(),
-                  validator: _emailValidator),
+                  onSaved: (value) => _model.email = value.trim()),
               entryField("Password",
                   onSaved: (value) => _model.password = value,
                   isPassword: true),
@@ -101,50 +87,6 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget entryField(
-    String title, {
-    void Function(String) onSaved,
-    String Function(String) validator,
-    bool isPassword = false,
-  }) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: 10,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            onSaved: (
-              value,
-            ) {
-              onSaved(
-                value,
-              );
-            },
-            validator: validator ?? (value) => null,
-            obscureText: isPassword,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              fillColor: Colors.black12,
-              filled: true,
-            ),
-          )
-        ],
       ),
     );
   }
