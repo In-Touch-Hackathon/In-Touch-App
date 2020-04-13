@@ -21,6 +21,7 @@ dependencies:
   cloud_firestore: ^0.13.4+2
 
   phone_number: ^0.6.2
+  otp_text_field: ^1.0.1
 
 dev_dependencies:
   flutter_test:
