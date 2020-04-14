@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:phone_number/phone_number.dart';
 import 'dart:math';
 
+import 'phoneNumberPage.dart';
 import 'shared/components.dart';
 import 'shared/validators.dart';
 
@@ -12,7 +13,6 @@ class SignUpModel {
   String username;
   String email;
   String password;
-  String phoneNumber;
 }
 
 class SignUpPage extends StatefulWidget {
@@ -37,24 +37,40 @@ class _SignUpPageState extends State<SignUpPage> {
       var message;
 
       try {
-        var parsedPhoneNumber = await _phoneNumber.parse(_model.phoneNumber, region: 'NZ');
-
         var authResult = await _auth.createUserWithEmailAndPassword(email: _model.email, password: _model.password);
         var user = authResult.user;
 
         await _firestore.document('users/${user.uid}').setData({
-          'phoneNumber': parsedPhoneNumber['e164'],
           'displayName': _model.username,
           'verified': false
         });
 
-        message = 'Signed up';
+        Navigator.of(
+          context,
+        ).push(
+          new PageRouteBuilder(
+            pageBuilder: (
+                BuildContext context,
+                _,
+                __,
+                ) {
+              return new PhoneNumberPage();
+            },
+            transitionsBuilder: (
+                _,
+                Animation<double> animation,
+                __,
+                Widget child,
+                ) {
+              return new FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          ),
+        );
       } on PlatformException catch (e) {
         switch (e.code) {
-          case 'InvalidNumber':
-            message = 'Invalid phone number';
-            break;
-
           case 'ERROR_WEAK_PASSWORD':
             message = 'Password is too weak';
             break;
@@ -101,9 +117,6 @@ class _SignUpPageState extends State<SignUpPage> {
               entryField(
                 "Display Name", onSaved: (value) => _model.username = value.trim(),
                 validator: displayNameValidator,
-              ),
-              entryField(
-                "Phone Number", onSaved: (value) => _model.phoneNumber = value,
               ),
               register(),
             ],
@@ -157,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
       child: InkWell(
         onTap: _submitForm,
         child: Text(
-          'Register Now',
+          'Next',
           style: TextStyle(
             fontSize: 20,
             color: Colors.white,

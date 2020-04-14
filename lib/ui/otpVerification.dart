@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:http/http.dart' as http;
 
 class OTPVerification extends StatefulWidget {
   @override
@@ -9,9 +12,50 @@ class OTPVerification extends StatefulWidget {
 }
 
 class _OTPVerificationState extends State<OTPVerification> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _auth = FirebaseAuth.instance;
+  final _firestore = Firestore();
+  FirebaseUser currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    sendVerification()
+      .catchError((onError) => print(onError));
+  }
+
+  Future<dynamic> sendVerification() async {
+    currentUser = await _auth.currentUser();
+    try {
+      var response = await http.post('https://intouch.tk/verify', headers: {
+        'Authorization': 'Bearer ${(await currentUser.getIdToken()).token}'
+      });
+      print(response.statusCode);
+      print('sent...');
+    } catch (e) {
+      print('An error occurred: $e');
+    }
+    print('code is ${(await currentUser.getIdToken()).token}');
+  }
+
+  void _checkVerificationCode(String code) async {
+    var docRef = _firestore.document('/codes/${currentUser.uid}');
+    var message;
+    if ((await docRef.get()).data['code'] == code) {
+      await docRef.delete();
+      await _firestore.document('/users/${currentUser.uid}').setData({ 'verified': true }, merge: true);
+      message = 'Registered';
+    } else {
+      message = 'Invalid Code';
+    }
+
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -50,13 +94,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                 ),
                 textFieldAlignment: MainAxisAlignment.spaceAround,
                 fieldStyle: FieldStyle.underline,
-                onCompleted: (
-                  pin,
-                ) {
-                  print(
-                    "Completed: " + pin,
-                  );
-                },
+                onCompleted: _checkVerificationCode,
               ),
             ],
           ),

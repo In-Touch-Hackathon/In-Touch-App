@@ -21,6 +21,7 @@ dependencies:
   firebase_messaging: ^6.0.13
   cloud_firestore: ^0.13.4+2
 
+  http: ^0.12.0+4
   phone_number: ^0.6.2
   otp_text_field: ^1.0.1
 
