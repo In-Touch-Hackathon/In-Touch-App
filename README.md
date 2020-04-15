@@ -22,11 +22,12 @@ This repository is still under development.
 #### 3. In Settings/Languages & Frameworks/Flutter, add your Flutter SDK.
 
 ## Upcoming Features
- -  Availability to text through app if phone number is not
- -  Join as user needing help.land-line.
+ -  Availability to text through app if phone number is not landline.
+ -  Join as user needing help.
  -  Direct messaging and calling in-app.
  -  Join as user in need of assistance.
  -  Statistics page showing how many calls received.
+ -  IOS, Web and Desktop support.
 
 ## License
 
