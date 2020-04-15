@@ -35,7 +35,7 @@ Widget entryField(
           obscureText: isPassword,
           decoration: InputDecoration(
             border: InputBorder.none,
-            fillColor: Colors.black12,
+            fillColor: Colors.black26,
             filled: true,
           ),
         )
