@@ -125,8 +125,8 @@ class _LoginPageState extends State<LoginPage> {
             color: Theme.of(
               context,
             ).focusColor,
-            blurRadius: 15,
-            spreadRadius: 1,
+            blurRadius: 4,
+            spreadRadius: 2,
           ),
         ],
         gradient: LinearGradient(

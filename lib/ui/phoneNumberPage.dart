@@ -70,10 +70,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           message = 'Invalid Phone Number';
           break;
       }
-
-
-
-
     }
   }
 

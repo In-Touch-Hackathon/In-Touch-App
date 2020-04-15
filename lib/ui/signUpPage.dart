@@ -150,9 +150,9 @@ class _SignUpPageState extends State<SignUpPage> {
             color: Theme.of(
               context,
             ).focusColor,
-            blurRadius: 15,
-            spreadRadius: 1,
-          )
+            blurRadius: 4,
+            spreadRadius: 2,
+          ),
         ],
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
