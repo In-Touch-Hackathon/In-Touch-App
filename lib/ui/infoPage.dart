@@ -62,7 +62,9 @@ class _InfoScreenState extends State<InfoScreen> {
                         LimitedBox(
                           maxHeight: _media.width / 2.25,
                           child: SingleChildScrollView(
-                            child: alertLevel(snapshot.data["level"]),
+                            child: alertLevel(
+                              snapshot.data["level"],
+                            ),
                             physics: NeverScrollableScrollPhysics(),
                           ),
                         ),
@@ -130,11 +132,12 @@ class _InfoScreenState extends State<InfoScreen> {
                   }
 
                   return CircularProgressIndicator(
-                    valueColor:
-                        new AlwaysStoppedAnimation<Color>(Colors.blueGrey),
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                      Colors.blueGrey,
+                    ),
                   );
                 },
-              )
+              ),
             ],
           ),
         ),
@@ -257,7 +260,6 @@ class _InfoScreenState extends State<InfoScreen> {
                     domainFn: (GaugeSegment segment, _) => segment.segment,
                     measureFn: (GaugeSegment segment, _) => segment.value,
                     colorFn: (GaugeSegment segment, _) => segment.color,
-                    // Set a label accessor to control the text of the arc label.
                     labelAccessorFn: (GaugeSegment segment, _) =>
                         segment.segment == 'Main' ? '${segment.value}' : null,
                     data: [
