@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intouch/ui/loginPage.dart';
+import 'package:intouch/ui/infoPage.dart';
+import 'package:intouch/ui/callHistoryPage.dart';
+import 'package:intouch/ui/profilePage.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,9 +18,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: PageView(
         children: [
-          LoginPage(),
-          LoginPage(),
-          LoginPage(),
+          InfoScreen(),
+          CallHistoryScreen(),
+          ProfileScreen(),
         ],
         controller: pageController,
         physics: BouncingScrollPhysics(),
@@ -28,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home,
+              Icons.search,
               color: (pageNumber == 0)
                   ? Color(
                       0xffec6f66,
@@ -38,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.search,
+              Icons.call,
               color: (pageNumber == 1)
                   ? Color(
                       0xffec6f66,
@@ -48,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.add_circle,
+              Icons.person,
               color: (pageNumber == 2)
                   ? Color(
                       0xffec6f66,
