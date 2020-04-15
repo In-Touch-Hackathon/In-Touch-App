@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:otp_text_field/otp_field.dart';
@@ -15,6 +16,7 @@ class _OTPVerificationState extends State<OTPVerification> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _auth = FirebaseAuth.instance;
   final _firestore = Firestore();
+  final _messaging = FirebaseMessaging();
   FirebaseUser currentUser;
 
   @override
@@ -43,8 +45,14 @@ class _OTPVerificationState extends State<OTPVerification> {
     var message;
     if ((await docRef.get()).data['code'] == code) {
       await docRef.delete();
+
       await _firestore.document('/users/${currentUser.uid}').setData({ 'verified': true }, merge: true);
       message = 'Registered';
+
+      var registrationToken = await _messaging.getToken();
+      await _firestore.document('/fcmtokens/$registrationToken').setData({
+        'uid': currentUser.uid
+      });
     } else {
       message = 'Invalid Code';
     }

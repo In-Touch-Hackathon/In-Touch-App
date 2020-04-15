@@ -21,7 +21,10 @@ class _LoginPageState extends State<LoginPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   final _model = new LoginModel();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final _auth = FirebaseAuth.instance;
+  final _firestore = Firestore.instance;
+  final _messaging = FirebaseMessaging();
 
 
   void _submitForm() async {
@@ -34,6 +37,11 @@ class _LoginPageState extends State<LoginPage> {
 
         print((await result.user.getIdToken()).token);
         message = 'Logged in';
+
+        var registrationToken = await _messaging.getToken();
+        await _firestore.document('/fcmtokens/$registrationToken').setData({
+          'uid': result.user.uid
+        });
       } on PlatformException catch (e) {
         switch (e.code) {
           case 'ERROR_USER_NOT_FOUND':
