@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intouch/ui/homePage.dart';
 import 'package:intouch/ui/signUpPage.dart';
 import 'package:intouch/ui/loginPage.dart';
 import 'dart:math';
@@ -9,54 +12,88 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  final _auth = FirebaseAuth.instance;
+  final _firestore = Firestore.instance;
+  Future<bool> future;
+
+  void initState() {
+    future = _auth.currentUser().then((user) {
+      if (user == null) {
+        return false;
+      }
+      return _firestore.document('users/${user.uid}').get()
+        .then((doc) {
+          if (!doc.exists) {
+            return false;
+          }
+          if (doc.data['verified'] == false) {
+            return false;
+          }
+          return true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(
-                0xfff3a183,
+    return FutureBuilder<bool>(
+      future: future,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data) {
+            return HomeScreen();
+          } else {
+            return Scaffold(
+              body: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(
+                        0xfff3a183,
+                      ),
+                      Color(
+                        0xffec6f66,
+                      ),
+                    ],
+                  ),
+                ),
+                child: Center(
+                  child: new ListView(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(
+                      left: 40.0,
+                      right: 40,
+                    ),
+                    children: [
+                      header(),
+                      signInButton(),
+                      signUpButton(),
+                      divider(),
+                      signInWith(
+                        Colors.red,
+                        Colors.redAccent,
+                        "G",
+                        "Sign in with Google",
+                      ),
+                      signInWith(
+                        Colors.indigo,
+                        Colors.indigoAccent,
+                        "f",
+                        "Continue with Facebook",
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              Color(
-                0xffec6f66,
-              ),
-            ],
-          ),
-        ),
-        child: Center(
-          child: new ListView(
-            physics: BouncingScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(
-              left: 40.0,
-              right: 40,
-            ),
-            children: [
-              header(),
-              signInButton(),
-              signUpButton(),
-              divider(),
-              signInWith(
-                Colors.red,
-                Colors.redAccent,
-                "G",
-                "Sign in with Google",
-              ),
-              signInWith(
-                Colors.indigo,
-                Colors.indigoAccent,
-                "f",
-                "Continue with Facebook",
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            );
+          }
+        } else {
+          return new CircularProgressIndicator();
+        }
+      });
   }
 
   Widget header() {

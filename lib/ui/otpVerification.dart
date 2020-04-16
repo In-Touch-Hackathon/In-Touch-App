@@ -7,6 +7,9 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:http/http.dart' as http;
 
+import 'homePage.dart';
+import 'phoneNumberPage.dart';
+
 class OTPVerification extends StatefulWidget {
   @override
   _OTPVerificationState createState() => _OTPVerificationState();
@@ -43,11 +46,13 @@ class _OTPVerificationState extends State<OTPVerification> {
   void _checkVerificationCode(String code) async {
     var docRef = _firestore.document('/codes/${currentUser.uid}');
     var message;
+    var verified = false;
     if ((await docRef.get()).data['code'] == code) {
       await docRef.delete();
 
       await _firestore.document('/users/${currentUser.uid}').setData({ 'verified': true }, merge: true);
       message = 'Registered';
+      var verified = true;
 
       var registrationToken = await _messaging.getToken();
       await _firestore.document('/fcmtokens/$registrationToken').setData({
@@ -57,7 +62,35 @@ class _OTPVerificationState extends State<OTPVerification> {
       message = 'Invalid Code';
     }
 
-    _scaffoldKey.currentState.showSnackBar(new SnackBar(content: Text(message)));
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: new Text(message),
+      onVisible: () {
+        Navigator.of(
+          context,
+        ).push(
+          new PageRouteBuilder(
+            pageBuilder: (
+                BuildContext context,
+                _,
+                __,
+                ) {
+              return verified ? HomeScreen() : PhoneNumberPage();
+            },
+            transitionsBuilder: (
+                _,
+                Animation<double> animation,
+                __,
+                Widget child,
+                ) {
+              return new FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          ),
+        );
+      },
+    ));
   }
 
   @override

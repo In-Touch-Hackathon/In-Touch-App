@@ -3,8 +3,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intouch/ui/homePage.dart';
 import 'dart:math';
 
+import 'phoneNumberPage.dart';
 import 'shared/components.dart';
 
 class LoginModel {
@@ -32,16 +34,24 @@ class _LoginPageState extends State<LoginPage> {
       _formKey.currentState.save();
 
       var message;
+      var verified = true;
       try {
         var result = await _auth.signInWithEmailAndPassword(email: _model.email, password: _model.password);
 
         print((await result.user.getIdToken()).token);
-        message = 'Logged in';
 
-        var registrationToken = await _messaging.getToken();
-        await _firestore.document('/fcmtokens/$registrationToken').setData({
-          'uid': result.user.uid
-        });
+        var userDoc = await _firestore.document('users/${result.user.uid}').get();
+        if (!userDoc.data['verified']) {
+          verified = false;
+          message = 'Redirecting to phone verification';
+        } else {
+          var registrationToken = await _messaging.getToken();
+          await _firestore.document('/fcmtokens/$registrationToken').setData({
+            'uid': result.user.uid
+          });
+          message = 'Logged in';
+        }
+
       } on PlatformException catch (e) {
         switch (e.code) {
           case 'ERROR_USER_NOT_FOUND':
@@ -67,9 +77,37 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
 
-      _scaffoldKey.currentState.showSnackBar(
-          new SnackBar(content: new Text(message))
-      );
+      print(verified);
+
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: new Text(message),
+        onVisible: () {
+          Navigator.of(
+            context,
+          ).push(
+            new PageRouteBuilder(
+              pageBuilder: (
+                  BuildContext context,
+                  _,
+                  __,
+                  ) {
+                return verified ? HomeScreen() : PhoneNumberPage();
+              },
+              transitionsBuilder: (
+                  _,
+                  Animation<double> animation,
+                  __,
+                  Widget child,
+                  ) {
+                return new FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+            ),
+          );
+        },
+      ));
     }
   }
 

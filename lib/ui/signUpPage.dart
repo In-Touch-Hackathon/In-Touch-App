@@ -26,8 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
   
   final _auth = FirebaseAuth.instance;
   final _firestore = Firestore.instance;
-  final _phoneNumber = PhoneNumber();
-  
+
   final _model = new SignUpModel();
 
   void _submitForm() async {
