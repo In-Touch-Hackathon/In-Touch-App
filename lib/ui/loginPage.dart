@@ -5,8 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intouch/ui/homePage.dart';
 import 'dart:math';
+import 'package:intouch/constants.dart';
 
 import 'phoneNumberPage.dart';
+import 'homePage.dart';
 import 'shared/components.dart';
 
 class LoginModel {
@@ -171,12 +173,8 @@ class _LoginPageState extends State<LoginPage> {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Color(
-              0xfff3a183,
-            ),
-            Color(
-              0xffec6f66,
-            ),
+            Constants.secondaryColor,
+            Constants.mainColor,
           ],
         ),
       ),
@@ -211,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Text(
-            "LOG-IN TO IN-TOUCH!",
+            "LOG-IN TO " + Constants.name + "!",
             style: TextStyle(
               letterSpacing: 4,
               fontWeight: FontWeight.bold,

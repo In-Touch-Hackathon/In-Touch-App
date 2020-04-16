@@ -3,6 +3,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:http/http.dart' as http;
 import 'dart:math';
 import 'dart:convert';
+import 'package:intouch/constants.dart';
 
 class InfoScreen extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class _InfoScreenState extends State<InfoScreen> {
   }
 
   Future<Map<String, dynamic>> fetchInformation() async {
-    final response = await http.get('http://intouch.tk/covid19');
+    final response = await http.get(Constants.baseURL + 'covid19');
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -133,7 +134,7 @@ class _InfoScreenState extends State<InfoScreen> {
 
                   return CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(
-                      Colors.blueGrey,
+                      Constants.secondaryColor
                     ),
                   );
                 },
@@ -163,20 +164,18 @@ class _InfoScreenState extends State<InfoScreen> {
                 _media.width / 3,
                 _media.height / 3,
               ),
-              color: Colors.black87,
             ),
           ),
           SizedBox(
             height: 20,
           ),
           Text(
-            'IN-TOUCH COVID-19 TRACKER',
+            Constants.name + ' COVID-19 TRACKER',
             textAlign: TextAlign.center,
             style: TextStyle(
               letterSpacing: 4,
               fontWeight: FontWeight.bold,
               fontSize: _media.width / 18,
-              color: Colors.black87,
             ),
           ),
           SizedBox(

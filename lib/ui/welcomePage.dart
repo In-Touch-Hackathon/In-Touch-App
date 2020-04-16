@@ -5,6 +5,7 @@ import 'package:intouch/ui/homePage.dart';
 import 'package:intouch/ui/signUpPage.dart';
 import 'package:intouch/ui/loginPage.dart';
 import 'dart:math';
+import 'package:intouch/constants.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -50,12 +51,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(
-                        0xfff3a183,
-                      ),
-                      Color(
-                        0xffec6f66,
-                      ),
+                      Constants.secondaryColor,
+                      Constants.mainColor,
                     ],
                   ),
                 ),
@@ -115,7 +112,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ),
           Text(
-            "WELCOME TO IN-TOUCH!",
+            "WELCOME TO " + Constants.name + "!",
             style: TextStyle(
               letterSpacing: 4,
               fontWeight: FontWeight.bold,
@@ -179,9 +176,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           'Login',
           style: TextStyle(
             fontSize: 20,
-            color: Color(
-              0xffef8573,
-            ),
+            color: Constants.mainColor,
             fontWeight: FontWeight.bold,
           ),
         ),
