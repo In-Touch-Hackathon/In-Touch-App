@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:phone_number/phone_number.dart';
 import 'dart:math';
-
+import 'package:intouch/constants.dart';
 import 'phoneNumberPage.dart';
 import 'shared/components.dart';
 import 'shared/validators.dart';
@@ -158,12 +158,8 @@ class _SignUpPageState extends State<SignUpPage> {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Color(
-              0xfff3a183,
-            ),
-            Color(
-              0xffec6f66,
-            ),
+            Constants.secondaryColor,
+            Constants.mainColor,
           ],
         ),
       ),
@@ -198,7 +194,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
           Text(
-            "SIGN-UP TO IN-TOUCH!",
+            "SIGN-UP TO " + Constants.name + "!",
             style: TextStyle(
               letterSpacing: 4,
               fontWeight: FontWeight.bold,

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math';
+import 'package:intouch/constants.dart';
 
+import 'homePage.dart';
 import 'shared/components.dart';
 
 class LoginModel {
@@ -33,7 +35,31 @@ class _LoginPageState extends State<LoginPage> {
         var result = await _auth.signInWithEmailAndPassword(email: _model.email, password: _model.password);
 
         print((await result.user.getIdToken()).token);
-        message = 'Logged in';
+
+        Navigator.of(
+          context,
+        ).push(
+          new PageRouteBuilder(
+            pageBuilder: (
+                BuildContext context,
+                _,
+                __,
+                ) {
+              return new HomeScreen();
+            },
+            transitionsBuilder: (
+                _,
+                Animation<double> animation,
+                __,
+                Widget child,
+                ) {
+              return new FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+          ),
+        );
       } on PlatformException catch (e) {
         switch (e.code) {
           case 'ERROR_USER_NOT_FOUND':
@@ -125,12 +151,8 @@ class _LoginPageState extends State<LoginPage> {
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Color(
-              0xfff3a183,
-            ),
-            Color(
-              0xffec6f66,
-            ),
+            Constants.secondaryColor,
+            Constants.mainColor,
           ],
         ),
       ),
@@ -165,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Text(
-            "LOG-IN TO IN-TOUCH!",
+            "LOG-IN TO " + Constants.name + "!",
             style: TextStyle(
               letterSpacing: 4,
               fontWeight: FontWeight.bold,

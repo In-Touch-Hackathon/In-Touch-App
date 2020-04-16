@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intouch/ui/homePage.dart';
 import 'dart:math';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:http/http.dart' as http;
+import 'package:intouch/constants.dart';
 
 class OTPVerification extends StatefulWidget {
   @override
@@ -44,7 +46,31 @@ class _OTPVerificationState extends State<OTPVerification> {
     if ((await docRef.get()).data['code'] == code) {
       await docRef.delete();
       await _firestore.document('/users/${currentUser.uid}').setData({ 'verified': true }, merge: true);
-      message = 'Registered';
+
+      Navigator.of(
+        context,
+      ).push(
+        new PageRouteBuilder(
+          pageBuilder: (
+              BuildContext context,
+              _,
+              __,
+              ) {
+            return new HomeScreen();
+          },
+          transitionsBuilder: (
+              _,
+              Animation<double> animation,
+              __,
+              Widget child,
+              ) {
+            return new FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        ),
+      );
     } else {
       message = 'Invalid Code';
     }
@@ -62,12 +88,8 @@ class _OTPVerificationState extends State<OTPVerification> {
             begin: Alignment.topLeft,
             end: Alignment.bottomCenter,
             colors: [
-              Color(
-                0xfff3a183,
-              ),
-              Color(
-                0xffec6f66,
-              ),
+              Constants.secondaryColor,
+              Constants.mainColor
             ],
           ),
         ),

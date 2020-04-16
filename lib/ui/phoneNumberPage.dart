@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:intouch/ui/otpVerification.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:intouch/constants.dart';
 
 class PhoneNumberPage extends StatefulWidget {
   @override
@@ -82,12 +83,8 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomCenter,
             colors: [
-              Color(
-                0xfff3a183,
-              ),
-              Color(
-                0xffec6f66,
-              ),
+              Constants.secondaryColor,
+              Constants.mainColor,
             ],
           ),
         ),
@@ -192,9 +189,6 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
           'Get Verification Code',
           style: TextStyle(
             fontSize: 20,
-            color: Color(
-              0xffef8573,
-            ),
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intouch/ui/infoPage.dart';
 import 'package:intouch/ui/callHistoryPage.dart';
 import 'package:intouch/ui/profilePage.dart';
+import 'package:intouch/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -32,9 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.search,
               color: (pageNumber == 0)
-                  ? Color(
-                      0xffec6f66,
-                    )
+                  ? Constants.mainColor
                   : Colors.grey,
             ),
           ),
@@ -42,9 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.call,
               color: (pageNumber == 1)
-                  ? Color(
-                      0xffec6f66,
-                    )
+                  ? Constants.mainColor
                   : Colors.grey,
             ),
           ),
@@ -52,9 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.person,
               color: (pageNumber == 2)
-                  ? Color(
-                      0xffec6f66,
-                    )
+                  ? Constants.mainColor
                   : Colors.grey,
             ),
           ),
