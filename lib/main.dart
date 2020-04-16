@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:intouch/messageHandler.dart';
 import 'package:intouch/ui/welcomePage.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(InTouchApp());
 
@@ -19,31 +20,36 @@ class InTouchAppState extends State<InTouchApp> {
   final _auth = FirebaseAuth.instance;
   final _firestore = Firestore.instance;
 
+  Future<void> _onNotification (Map<String, dynamic> message) async {
+    await http.post('https://intouch.tk/connect/${message['data']['id']}',
+        headers: { 'Authorization': 'Bearer ' + ((await (await _auth.currentUser()).getIdToken()).token),
+          'Content-Type': 'application/json' });
+  }
+
   @override
   void initState() {
     super.initState();
     _messaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-//        _showItemDialog(message);
+        // not sure what we're doing here
       },
       onBackgroundMessage: messageHandler,
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-//        _navigateToItemDetail(message);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-//        _navigateToItemDetail(message);
-      },
+      onLaunch: _onNotification,
+      onResume: _onNotification
     );
 
     _messaging.onTokenRefresh.listen((String token) async {
       print('new token: $token');
-      var uid = (await _auth.currentUser())?.uid;
-      if (uid == null) return;
+      var currentUser = await _auth.currentUser();
+      if (currentUser == null) return;
 
-      await _firestore.document('users/$uid').setData({ 'fcmToken': token}, merge: true);
+      var uid = currentUser.uid;
+
+      var userDoc = await _firestore.document('users/$uid').get();
+      if (!userDoc.data['verified']) return;
+
+      await _firestore.document('fcmtokens/$token').setData({ 'uid': uid });
     });
   }
 
