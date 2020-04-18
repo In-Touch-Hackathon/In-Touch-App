@@ -39,17 +39,16 @@ class _LoginPageState extends State<LoginPage> {
       var verified = true;
       try {
         var result = await _auth.signInWithEmailAndPassword(email: _model.email, password: _model.password);
+        var uid = result.user.uid;
 
-        print((await result.user.getIdToken()).token);
-
-        var userDoc = await _firestore.document('users/${result.user.uid}').get();
+        var userDoc = await _firestore.document('users/$uid').get();
         if (!userDoc.data['verified']) {
           verified = false;
           message = 'Redirecting to phone verification';
         } else {
           var registrationToken = await _messaging.getToken();
-          await _firestore.document('/fcmtokens/$registrationToken').setData({
-            'uid': result.user.uid
+          await _firestore.document('users/$uid').setData({
+            'fcmTokens': FieldValue.arrayUnion([registrationToken])
           });
           message = 'Logged in';
         }

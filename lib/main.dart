@@ -52,7 +52,9 @@ class InTouchAppState extends State<InTouchApp> {
       var userDoc = await _firestore.document('users/$uid').get();
       if (!userDoc.data['verified']) return;
 
-      await _firestore.document('fcmtokens/$token').setData({ 'uid': uid });
+      await _firestore.document('users/$uid').updateData({
+        'fcmtokens': FieldValue.arrayUnion([token])
+      });
     });
   }
 
