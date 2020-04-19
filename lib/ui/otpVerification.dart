@@ -54,11 +54,11 @@ class _OTPVerificationState extends State<OTPVerification> {
 
       await _firestore.document('/users/${currentUser.uid}').setData({ 'verified': true }, merge: true);
       message = 'Registered';
-      var verified = true;
+      verified = true;
 
       var registrationToken = await _messaging.getToken();
-      await _firestore.document('/fcmtokens/$registrationToken').setData({
-        'uid': currentUser.uid
+      await _firestore.document('/users/${currentUser.uid}').updateData({
+        'fcmtokens': FieldValue.arrayUnion([registrationToken])
       });
     } else {
       message = 'Invalid Code';

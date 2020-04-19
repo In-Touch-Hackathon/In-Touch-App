@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,15 +10,24 @@ class CallHistoryScreen extends StatefulWidget {
 }
 
 class _CallHistoryScreenState extends State<CallHistoryScreen> {
-  List<Call> calls = <Call>[];
+  List<Call> _calls = List();
+  final _auth = FirebaseAuth.instance;
+  final _firestore = Firestore.instance;
   List<MaterialColor> callColors = <MaterialColor>[];
   final random = Random();
 
   @override
   void initState() {
     createCallingColors();
-    createDummyData();
     super.initState();
+  }
+
+  Future<List<DocumentSnapshot>> getData() async {
+    List<Call> calls;
+    var currentUser = await _auth.currentUser();
+    var uid = currentUser.uid;
+
+    return _firestore.collection('users/$uid/calls').getDocuments().then((x) => x.documents);
   }
 
   void createCallingColors() {
@@ -28,67 +39,69 @@ class _CallHistoryScreenState extends State<CallHistoryScreen> {
     callColors.add(Colors.lightBlue);
   }
 
-  void createDummyData() {
-    calls.add(
-      Call(from: "963808326", callTime: "April 16, 2020 at 12:00:00 AM"),
-    );
-    calls.add(
-      Call(from: "963808326", callTime: "April 16, 2020 at 12:00:00 AM"),
-    );
-    calls.add(
-      Call(from: "963808326", callTime: "April 16, 2020 at 12:00:00 AM"),
-    );
-    calls.add(
-      Call(from: "963808326", callTime: "April 16, 2020 at 12:00:00 AM"),
-    );
-    calls.add(
-      Call(from: "963808326", callTime: "April 16, 2020 at 12:00:00 AM"),
-    );
-    calls.add(
-      Call(from: "963808326", callTime: "April 16, 2020 at 12:00:00 AM"),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-    final children = <Widget>[];
+    return FutureBuilder<List<DocumentSnapshot>>(
+      future: getData(),
+      builder: (BuildContext context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
+        if (snapshot.hasData) {
+          final children = <Widget>[];
+          final dbCalls = snapshot.data;
 
-    children.add(header());
 
-    for (var i = 0; i < calls.length; i++) {
-      children.add(buildCall(i));
-    }
+          for (final call in dbCalls) {
+            print(call.data['number']);
+            _calls.add(
+                Call(
+                    from: call.data['number'],
+                    callTime: new DateTime.fromMillisecondsSinceEpoch(call.data['time'].millisecondsSinceEpoch)
+                      .toString()
+                )
+            );
+          }
 
-    return Scaffold(
-      body: Container(
-        child: Center(
-          child: new ListView(
-            physics: BouncingScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(
-              left: 20.0,
-              right: 20,
+          children.add(header());
+
+          for (var i = 0; i < _calls.length; i++) {
+            children.add(buildCall(i));
+          }
+
+          return Scaffold(
+            body: Container(
+              child: Center(
+                child: new ListView(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(
+                    left: 20.0,
+                    right: 20,
+                  ),
+                  children: children,
+                ),
+              ),
             ),
-            children: children,
-          ),
-        ),
-      ),
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
+      }
     );
   }
 
   Widget buildCall(int index) {
     return InkWell(
-      onTap: () => launch("tel://" + calls[index].from),
+      onTap: () => launch("tel://" + _calls[index].from),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: ListTile(
               title: Text(
-                '${calls[index].from}',
+                '${_calls[index].from}',
               ),
               subtitle: Text(
-                '${calls[index].callTime}',
+                '${_calls[index].callTime}',
               ),
             ),
           ),

@@ -50,7 +50,7 @@ class InTouchAppState extends State<InTouchApp> {
       var uid = currentUser.uid;
 
       var userDoc = await _firestore.document('users/$uid').get();
-      if (!userDoc.data['verified']) return;
+      if (!(userDoc.data['verified'] ?? false)) return;
 
       await _firestore.document('users/$uid').updateData({
         'fcmtokens': FieldValue.arrayUnion([token])

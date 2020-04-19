@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
           message = 'Redirecting to phone verification';
         } else {
           var registrationToken = await _messaging.getToken();
-          await _firestore.document('users/$uid').setData({
+          await _firestore.document('users/$uid').updateData({
             'fcmTokens': FieldValue.arrayUnion([registrationToken])
           });
           message = 'Logged in';
@@ -83,30 +83,29 @@ class _LoginPageState extends State<LoginPage> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: new Text(message),
         onVisible: () {
-          Navigator.of(
-            context,
-          ).push(
-            new PageRouteBuilder(
-              pageBuilder: (
-                  BuildContext context,
-                  _,
-                  __,
-                  ) {
-                return verified ? HomeScreen() : PhoneNumberPage();
-              },
-              transitionsBuilder: (
-                  _,
-                  Animation<double> animation,
-                  __,
-                  Widget child,
-                  ) {
-                return new FadeTransition(
-                  opacity: animation,
-                  child: child,
-                );
-              },
-            ),
-          );
+          if (message == 'Logged in' ||
+              message == 'Redirecting to phone verification') {
+            Navigator.of(
+              context,
+            ).push(
+              new PageRouteBuilder(
+                pageBuilder: (BuildContext context,
+                    _,
+                    __,) {
+                  return verified ? HomeScreen() : PhoneNumberPage();
+                },
+                transitionsBuilder: (_,
+                    Animation<double> animation,
+                    __,
+                    Widget child,) {
+                  return new FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+              ),
+            );
+          }
         },
       ));
     }
