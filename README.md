@@ -2,8 +2,7 @@
 
 An app for volunteers to connect with those most in need in our community. Created in Flutter.
 
-## Note
-This repository is still under development.
+***Go to [docs.intouch.tk](https://docs.intouch.tk/) for more info***
 
 ## Features
 
