@@ -2,13 +2,11 @@
 
 An app for volunteers to connect with those most in need in our community. Created in Flutter.
 
-## Note
-This repository is still under development.
+***Go to [docs.intouch.tk](https://docs.intouch.tk/) for more info***
 
 ## Features
 
  * Sign up to be a volunteer to help the elderly.
- * Input available time or toggle available.
  * Notifications when the elderly need help.
  * Call the volunteer’s phone number.
  * Verify phone number.
@@ -28,6 +26,7 @@ This repository is still under development.
  -  Join as user in need of assistance.
  -  Statistics page showing how many calls received.
  -  IOS, Web and Desktop support.
+ -  Input available time or toggle available.
 
 ## License
 
