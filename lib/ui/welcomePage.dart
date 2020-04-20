@@ -67,20 +67,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     children: [
                       header(),
                       signInButton(),
-                      signUpButton(),
-                      divider(),
-                      signInWith(
-                        Colors.red,
-                        Colors.redAccent,
-                        "G",
-                        "Sign in with Google",
-                      ),
-                      signInWith(
-                        Colors.indigo,
-                        Colors.indigoAccent,
-                        "f",
-                        "Continue with Facebook",
-                      ),
+                      signUpButton()
                     ],
                   ),
                 ),
@@ -238,116 +225,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget divider() {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: 10,
-      ),
-      child: Row(
-        children: <Widget>[
-          SizedBox(
-            width: 20,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
-          ),
-          Text(
-            'or',
-            style: TextStyle(
-              color: Colors.white70,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget signInWith(Color logo, Color accent, String logoChar, String text) {
-    return InkWell(
-      child: Container(
-        height: 54,
-        margin: EdgeInsets.symmetric(
-          vertical: 10,
-        ),
-        alignment: Alignment.center,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: logo,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(
-                      5,
-                    ),
-                    topLeft: Radius.circular(
-                      5,
-                    ),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  logoChar,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 5,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: accent,
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(
-                      5,
-                    ),
-                    topRight: Radius.circular(
-                      5,
-                    ),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  text,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );
